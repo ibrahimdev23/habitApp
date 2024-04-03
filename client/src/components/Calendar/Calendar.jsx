@@ -1,13 +1,17 @@
-import {nextDay, subMonths, sub, add, differenceInCalendarDays, differenceInDays, endOfMinute, endOfMonth, formatDistance, startOfMonth, subDays, format, setDate, lastDayOfMonth } from "date-fns";
-
-
+import {nextDay, subMonths, sub, add, differenceInCalendarDays, differenceInDays, compareAsc, endOfMinute, endOfMonth, formatDistance, startOfMonth, subDays, format, setDate, lastDayOfMonth } from "date-fns";
+import UserContext from "../../Context/UserContext";
+import { useContext } from "react";
 import Cell from "./Cell";
+import { useEffect, useState } from "react";
 
 const daysWeek = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 
 // 31 -7 = 24 
 
 const Calendar = ({value, onChange, onClick}) => {
+
+  const {user, setUser} = useContext(UserContext)
 
     //date fns libary 
 const startingDate = startOfMonth(value)
@@ -27,12 +31,18 @@ const numberOfDaysLastMonth = differenceInDays(endingDateLastMonth, startingDate
 const prefixStart = numberOfDaysLastMonth - prefix
 
 
+const [showx, setx] = useState(false)
+
+const [streaks, setStreaks] = useState([])
 
 const handleNewDate = (index) => {
     const newDate = setDate(value, index)
-    onClick(newDate,2)
-    
+    onClick(newDate)
+   
 }
+
+  
+
 
 const perviousMonth = () => {
     onChange(sub(value, {months: 1}))
@@ -48,6 +58,54 @@ const nextYear = () => {
 }
 
 
+const  getStreaks = async () => {
+		
+  const userId = user["id"]
+
+  let data = {userId}
+  // user["streaks"].push(day)
+
+  const res = await fetch(`http://127.0.0.1:8000//streaks`, {
+    
+    method: "POST", 
+    headers: {
+      "Content-Type": "application/json",
+      'Accept': 'application/json',
+      
+      },
+      body: JSON.stringify(data),
+    });
+
+    const response = await res.json()
+    
+    let tempStreaks = []
+    let newStreaks = []
+    for(let i = 0; i < response.length; i++){
+      let resData = response[i].date
+      if(resData !== null && resData !== undefined && tempStreaks.includes(resData) == false) {
+        let streak = resData.replace(/[^a-zA-Z0-9 ]/g, "")
+        let dateToMark = new Date(streak)
+        tempStreaks.push(dateToMark)
+
+      }
+
+    }
+
+ 
+    // let tempStreak = []
+    // for(let i = 0; i < tempStreaks.length;i++){
+    //   let dateToMark = new Date(tempStreaks[i])
+    //   tempStreak.push(dateToMark)
+   
+
+    // }
+    
+    setStreaks(tempStreaks)
+    console.log(streaks)
+}
+useEffect(() => {
+  getStreaks()
+},[])
 // mx-10 py-1 px-0 
   return (
     <div className="w-[650px] border-t border-l bg-white rounded-lg shadow ">
@@ -85,7 +143,7 @@ const nextYear = () => {
         //prefixStart = prefixStart +1
         //console.log(prefixStart)
         const date = prefixStart + index + 1
-        console.log(date)
+       
        
         return (
           <Cell
@@ -101,6 +159,39 @@ const nextYear = () => {
         {Array.from({ length: numberOfDaysMonth }).map((_, index) => {
         const date = index + 1;
         const isToday = date === value.getDate()
+        let mark = false;
+        let mark2 = false;
+     
+      let pos  = []
+        const ca = new Date("March 1 2024")
+        const c = new Date("March 15 2024")
+        
+        //console.log(array)
+        for(let i = 0; i < streaks.length;i++){
+          if(streaks[i].getMonth() === value.getMonth()){
+            //console.log(array[i].getDate())
+              pos.push(streaks[i].getDate())
+        
+          }
+        }
+        //console.log(pos)
+        //console.log(pos)
+       {/* if(ca.getMonth() == value.getMonth()){
+        mark = ca.getDate() === date
+       }
+ 
+       if(c.getMonth() == value.getMonth()){
+        mark2 = c.getDate() === date
+       } */}
+
+
+         
+       
+        
+       {/* const yes =  date === new Date(2024, 2,15).getDate() */}
+       //getDate(new Date(2014, 2))
+         
+          
        
         return (
           <Cell
@@ -109,6 +200,11 @@ const nextYear = () => {
             onClick={() => handleNewDate(date)}
             isToday={isToday}
             isDate={true}
+            pos={pos}
+            mark={mark}
+            mark2={mark2}
+            
+
           >
         
           </Cell>

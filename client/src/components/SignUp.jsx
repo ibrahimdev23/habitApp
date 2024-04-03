@@ -23,7 +23,7 @@ const SignUp = () => {
             
     
             const data = await res.json()
-            console.log(data)
+            
                 
         }
     
@@ -33,7 +33,7 @@ const SignUp = () => {
 
 
 
-    <div class="bg-white p-8 rounded shadow-md max-w-md w-full mx-auto">
+    <div class="bg-white p-8 rounded shadow-md max-w-md w-full mx-auto mt-40">
         <h2 class="text-2xl font-semibold mb-4">Join HabitApp </h2>
 
         <form >
@@ -68,7 +68,7 @@ const SignUp = () => {
             </div>
          
             <div class="mt-6">
-                <button onClick={registerUser} class="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600">Sign up</button>
+                <button onClick={registerUser} class="w-full p-3 bg-red-500 text-white rounded-md hover:bg-red-600">Sign up</button>
             </div>
         </form>
     </div>

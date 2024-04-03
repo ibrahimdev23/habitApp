@@ -14,7 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, select
 from config import db, app, bcrypt, login_manager
 from flask_login import login_user, logout_user, login_required
-from models import User
+from models import Streak, User
 
 
 #user authentication 
@@ -40,8 +40,9 @@ def login():
 
 @app.route("/logout")
 def logout():
-    return "logged out"
     logout_user()
+    return "logged out"
+   
     #then redirct to home page 
 
 # @app.route("/account")
@@ -66,6 +67,7 @@ def get_all_users():
     #users1 = db.session.query(User)
     #users = db.session.execute(select(User).order_by(User.id))
     users = db.session.query(User).all()
+    #streaks = db.session.query(Streak).all()
     #print(users.all())
     list = []
     for u in users:
@@ -82,10 +84,10 @@ def register():
     email = request.json.get("email")
     username = request.json.get("username")
     password = request.json.get("password")
-
+    streaks = []
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    new_user = User(email=email, username=username, password=hashed_password)
+    new_user = User(email=email, username=username, password=hashed_password, streaks=streaks)
 
     try:
         db.session.add(new_user)
@@ -102,23 +104,51 @@ def register():
 })
 
 
-@app.route("/update_user/<int:user_id>")
+
+@app.route("/update_user/<int:user_id>", methods=["POST"])
 def update_user(user_id):
-    user = User.query.get(user_id)
+    #user = User.query.get(user_id)
 
-    if not user:
-        return jsonify({"message": "User not found"}), 404
+    # if not user:
+    #     return jsonify({"message": "User not found"}), 404
     
-    data = request.json
-    user.email = data.get("email", user.email)
-    user.username = data.get("username", user.username)
-    #user.password = data.get("password", user.password)
+    #data = request.json
+    # user.email = data.get("email", user.email)
+    # user.username = data.get("username", user.username)
+    # user.streaks = data.get("streaks", streaks)
+    #user.streaks = user.streaks.array_append(data["streaks"])
+    date = request.json.get("date")
+    userId = request.json.get("userId")
 
-    db.sesion.commit()
+    new_streak = Streak(date=date,user_id=userId)
+    #user.password = data.get("password", user.password)
+    try:
+        db.session.add(new_streak)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({"message": str(e)}), 400
+
     
     return jsonify({"message": "user updated"}), 200
 
 
+@app.route('/streaks', methods=["GET", "POST"])
+def get_user_streaks():
+    user_id = request.json.get("userId", None)
+    #users = User.query.first()
+    #users1 = db.session.query(User)
+    #users = db.session.execute(select(User).order_by(User.id))
+    #users = db.session.query(User).all()
+    streaks = Streak.query.filter_by(user_id=user_id).all()
+    print(streaks)
+    #streaks = db.session.query(Streak).all()
+    #print(users.all())
+    list = []
+    for u in streaks:
+        row = u.to_json()
+        list.append(row)
+    print(list)
+    return jsonify(list)
 
 
 @app.route("/api/users", methods=["GET"])

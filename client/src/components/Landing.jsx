@@ -36,7 +36,8 @@ const Landing = () => {
        </div>
      
      </section> */}
-     <div class="container mx-auto h-screen">
+     {/* from-blue-200 via-indigo-200 to-pink-200 */}
+     <div class=" h-screen w-screen bg-gradient-to-tr from-blue-400 via-gray-200 to-red-300  py-10">
 
       <div class="text-center px-3 lg:px-0">
       {/* <img className="h-screen flex items-center justify-center f"  src="../../imgs/link_1f517.png" alt=""/> */}

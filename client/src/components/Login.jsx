@@ -73,35 +73,38 @@ function Login(props,) {
    
    
 
-    return (
-        <>
-      
-      {user ? <Navigate to="/profile"/> : null }
-      <div class="bg-white p-8 rounded shadow-md max-w-md w-full mx-auto">
-        <h2 class="text-2xl font-semibold mb-4">Welcome back </h2>
+return (
+    <>
+  
+  {user ? <Navigate to="/dashboard"/> : null }
+  <div class="flex flex-col items-center justify-center w-screen mt-40 text-gray-700o">
 
-       <form onSubmit={loginUser}>
-            <div class="mt-4">
-                <label for="usernmae" class="block text-sm font-medium text-gray-700">Enter Username: </label>
-                <input type="username" class="mt-1 p-2 w-full border rounded-md"
-                autoComplete="on"
-                     onChange={(e) => setUsername(e.target.value)}
-                />
-            </div>
-           
-            <div class="mt-4">
-                <label for="password" class="block text-sm font-medium text-gray-700">Enter Password: </label>
-                <input type="password" class="mt-1 p-2 w-full border rounded-md"
-                autoComplete="on"
-                     onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-      {logInError ? <p  class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Error!</span> Username or password not valid</p> 
-      : null }
-            <div class="mt-6">
-                <button  type={"submit"} class="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600">Log in</button>
-            </div>
-            </form>
+    <form onSubmit={loginUser} class="flex flex-col bg-white rounded shadow-lg p-12 mt-12z" action="">
+    <h2 class="font-bold text-2xl mb-10 text-center">Welcome back </h2>
+
+    <label class="font-semibold text-xs" for="usernameField">Username</label>
+    <input 
+    class="flex items-center h-12 px-4 w-64 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2" 
+    type="text"
+    name="username"
+    onChange={(e) => setUsername(e.target.value)}
+    />
+    <label class="font-semibold text-xs mt-3" for="passwordField">Password</label>
+    <input 
+    class="flex items-center h-12 px-4 w-64 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2"
+    type="password"
+    name="password"
+    onChange={(e) => setPassword(e.target.value)}
+
+    />
+
+       
+  {logInError ? <p  class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Error!</span> Username or password not valid</p> 
+  : null }
+        <div class="mt-6">
+            <button  type={"submit"} class="flex items-center justify-center h-12 px-6 w-64 bg-red-600 mt-8 rounded font-semibold text-sm text-blue-100 hover:bg-blue-700">Log in</button>
+        </div>
+        </form>
             {/* {user ?  navigator("/profile") : null} */}
     </div>
 
