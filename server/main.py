@@ -16,9 +16,6 @@ from models import Streak, User
 
 
 
-@app.route("/")
-def index():
-    return app.send_static_file("index.html")
 
 
 #user authentication 

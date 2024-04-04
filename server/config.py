@@ -2,19 +2,26 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy import VARCHAR, Column, MetaData, Table, create_engine
+import os
+
+from dotenv import load_dotenv, dotenv_values
 
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin
 
-app = Flask(__name__, static_folder="../build", static_url_path="/")
+app = Flask(__name__)
 CORS(app)
 
 # SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL').replace("postgres://", "postgresql://", 1)
 
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://ogpwmffi:LMf9Hr-lFZC4bFCWbAy5WVuUia8WWZeb@hansken.db.elephantsql.com/ogpwmffi'
+# app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://ogpwmffi:LMf9Hr-lFZC4bFCWbAy5WVuUia8WWZeb@hansken.db.elephantsql.com/ogpwmffi'
+load_dotenv()
+database_url = os.getenv("DATABASE_URL")
+print(database_url)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-
+# postgressql://habitappserver_user:66qfkH6SG8Uf35N5dyallKazU2UAJUu5@dpg-co7in6q1hbls73eb5is0-a/habitappserver
 
 
 db = SQLAlchemy(app)
