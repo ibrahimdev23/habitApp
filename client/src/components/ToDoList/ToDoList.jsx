@@ -67,7 +67,7 @@ const ToDoList = ({date}) => {
 		const userId = user["id"]
 		let data = {"date":day, userId}
 	
-		const res = await fetch(`https://habitapp-3.onrender.com/update_streak`, {
+		const res = await fetch(`http://127.0.0.1:8000/api/update_streak`, {
 			
 			method: "POST", 
 			headers: {
@@ -103,7 +103,7 @@ const ToDoList = ({date}) => {
 	useEffect(() => {
 		addToUserData()
 		
-	}, [])
+	}, [tasks])
 	return (
 		<div class=" c flex-grow items-center justify-center text-gray-600  ">
 	

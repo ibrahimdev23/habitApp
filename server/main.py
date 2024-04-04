@@ -21,7 +21,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/api/login", methods=["GET", "POST"])
 def login():
     user_name = request.json.get("username", None)
     password = request.json.get("password", None)
@@ -36,7 +36,7 @@ def login():
 
 
 
-@app.route("/logout")
+@app.route("/api/logout")
 def logout():
     logout_user()
     return "logged out"
@@ -46,7 +46,7 @@ def logout():
 
 
 
-@app.route('/users', methods=["GET"])
+@app.route('/api/users', methods=["GET"])
 def get_all_users():
    
     users = db.session.query(User).all()
@@ -61,7 +61,7 @@ def get_all_users():
 
 
 
-@app.route("/register", methods=["POST"])
+@app.route("/api/register", methods=["POST"])
 def register():
     email = request.json.get("email")
     username = request.json.get("username")
@@ -86,7 +86,7 @@ def register():
 
 
 
-@app.route("/update_streak", methods=["POST"])
+@app.route("/api/update_streak", methods=["POST"])
 def update_streak():
 
     date = request.json.get("date")
@@ -103,7 +103,7 @@ def update_streak():
     return jsonify({"message": "user updated"}), 200
 
 
-@app.route('/streaks', methods=["GET", "POST"])
+@app.route('/api/streaks', methods=["GET", "POST"])
 def get_user_streaks():
     user_id = request.json.get("userId", None)
    
@@ -118,17 +118,6 @@ def get_user_streaks():
     return jsonify(list)
 
 
-@app.route("/api/users", methods=["GET"])
-def users():
-    return jsonify(
-        {
-            "users": [
-                "ibrahim", 
-                "luka",
-                "bron"
-            ]
-        }
-    )
 
 if __name__ == "__main__":
    

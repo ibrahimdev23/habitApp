@@ -66,7 +66,7 @@ const  getStreaks = async () => {
   let data = {userId}
 
 
-  const res = await fetch(`https://habitapp-3.onrender.com/streaks`, {
+  const res = await fetch(`http://127.0.0.1:8000/api/streaks`, {
     
     method: "POST", 
     headers: {
