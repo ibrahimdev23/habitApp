@@ -1,11 +1,10 @@
 import React, { useState , useReducer, useContext, useEffect} from "react";
 import { format, set } from "date-fns";
 import ToDoItem from "./ToDoItem";
-import ListContext from "../../Context/ListContext";
 import UserContext from "../../Context/UserContext";
 
 let nextId = 0
-
+let count = 1
 const ToDoList = ({date}) => {
     const {user, setUser} = useContext(UserContext)
 
@@ -19,6 +18,7 @@ const ToDoList = ({date}) => {
 
 	const addTask = (text) => {
 		
+	if(text !== ""){
 		const newTask = {
 			id:nextId++,
 			date: Date.now(),
@@ -27,6 +27,8 @@ const ToDoList = ({date}) => {
 		}
 		setTasks([...tasks, newTask ])
 		setText("")
+	}	
+	
 	}
 
 	const deleteTask = (id) => {
@@ -34,9 +36,8 @@ const ToDoList = ({date}) => {
 	}
 
 	const addToUserData = () => {
-		let count = 1
+		
 	
-
 		for(let i = 1; i < tasks.length; i++){
 			if(tasks[i].completed){
 				count++
@@ -53,21 +54,20 @@ const ToDoList = ({date}) => {
 
 
 	
-	useEffect(() => {
-		addToUserData()
-	}, [tasks])
+	
+	
 
-	// let currentD = JSON.stringify(format(currentDate, "LLLLLL dd yyyy"))
-	// const dates = [{date: currentD, completed:true}]
-	// console.log(dates[0])
+
+	
+	let filteredTasks = tasks.filter(elm => elm)
+	
 	
 	const  postStreakData = async (day) => {
 		
 		const userId = user["id"]
 		let data = {"date":day, userId}
-		// user["streaks"].push(day)
 	
-		const res = await fetch(`http://127.0.0.1:8000//update_user/1`, {
+		const res = await fetch(`http://127.0.0.1:8000/update_streak`, {
 			
 			method: "POST", 
 			headers: {
@@ -86,7 +86,7 @@ const ToDoList = ({date}) => {
 
 	const toggleCheckedMark = (id) => {
 		
-		setTasks(tasks.map(task => {
+		setTasks(filteredTasks.map(task => {
 			if(task.id === id){
 				
 				return {...task, completed: !task.completed}
@@ -98,8 +98,14 @@ const ToDoList = ({date}) => {
 		}))
 	}
 
+
+
+	useEffect(() => {
+		addToUserData()
+		
+	}, [])
 	return (
-		<div class=" c flex-grow items-center justify-center text-gray-600 ">
+		<div class=" c flex-grow items-center justify-center text-gray-600  ">
 	
 		<div class="c max-w-full p-8 bg-white w-96">
 			<div class="flex items-center mb-6">
@@ -110,7 +116,7 @@ const ToDoList = ({date}) => {
 	
 		<ul className="" >
 		
-			{tasks.map(task => (
+			{filteredTasks.map(task => (
 				<li>
 				<div className="flex items-center group/item" >
 				<ToDoItem
@@ -131,7 +137,7 @@ const ToDoList = ({date}) => {
 		<input 
 		className="border ml-5 mt-12 mr-5"
 		placeholder="Add new task"
-			value={text}
+			value={text ? text : "add new task"}
 			onChange={e => setText(e.target.value)}>
 			
 			</input>

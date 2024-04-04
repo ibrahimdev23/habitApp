@@ -7,9 +7,7 @@ import { useEffect, useState } from "react";
 const daysWeek = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 
-// 31 -7 = 24 
-
-const Calendar = ({value, onChange, onClick}) => {
+const Calendar = ({value, onChange, onClick, setTodayDate, setStreakCount}) => {
 
   const {user, setUser} = useContext(UserContext)
 
@@ -31,7 +29,6 @@ const numberOfDaysLastMonth = differenceInDays(endingDateLastMonth, startingDate
 const prefixStart = numberOfDaysLastMonth - prefix
 
 
-const [showx, setx] = useState(false)
 
 const [streaks, setStreaks] = useState([])
 
@@ -40,22 +37,26 @@ const handleNewDate = (index) => {
     onClick(newDate)
    
 }
-
+let count = 0;
   
 
 
 const perviousMonth = () => {
     onChange(sub(value, {months: 1}))
+    getStreaks()
 }
 const perviousYear = () => {
     onChange(sub(value, {years: 1}))
+    
 }
 const nextMonth = () => {
     onChange(add(value, {months: 1}))
+    getStreaks()
 }
 const nextYear = () => {
     onChange(add(value, {years: 1}))
 }
+
 
 
 const  getStreaks = async () => {
@@ -63,9 +64,9 @@ const  getStreaks = async () => {
   const userId = user["id"]
 
   let data = {userId}
-  // user["streaks"].push(day)
 
-  const res = await fetch(`http://127.0.0.1:8000//streaks`, {
+
+  const res = await fetch(`http://127.0.0.1:8000/streaks`, {
     
     method: "POST", 
     headers: {
@@ -80,38 +81,58 @@ const  getStreaks = async () => {
     
     let tempStreaks = []
     let newStreaks = []
-    for(let i = 0; i < response.length; i++){
-      let resData = response[i].date
-      if(resData !== null && resData !== undefined && tempStreaks.includes(resData) == false) {
-        let streak = resData.replace(/[^a-zA-Z0-9 ]/g, "")
-        let dateToMark = new Date(streak)
-        tempStreaks.push(dateToMark)
 
+      for(let i = 0; i < response.length; i++){
+        count++
+        let resData = response[i].date
+        if(resData !== null && resData !== undefined && tempStreaks.includes(resData) == false) {
+          let streak = resData.replace(/[^a-zA-Z0-9 ]/g, "")
+          let dateToMark = new Date(streak)
+          tempStreaks.push(dateToMark)
+  
+        }
+  
       }
 
-    }
-
- 
-    // let tempStreak = []
-    // for(let i = 0; i < tempStreaks.length;i++){
-    //   let dateToMark = new Date(tempStreaks[i])
-    //   tempStreak.push(dateToMark)
-   
-
-    // }
     
     setStreaks(tempStreaks)
     console.log(streaks)
+    
 }
 useEffect(() => {
   getStreaks()
+  
+
 },[])
-// mx-10 py-1 px-0 
+
+setStreakCount(streaks.length)
+
+const loadStreaks = () => {
+  getStreaks()
+  setStreakCount(streaks.length)
+
+}
+
+
   return (
+    <>
+    <div className=" flex gap-8 mb-5 ml-50 w-100 justify-center" >
+    <button className="flex  gap-4 textlg bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+    onClick={setTodayDate}
+    >Today
+    </button>
+    <button className="flex gap-4 textlg bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+    onClick={loadStreaks}
+    >Add Streak
+    </button>
+    </div>
+    
+
     <div className="w-[650px] border-t border-l bg-white rounded-lg shadow ">
+    
       <div className=" grid grid-cols-7 items-center jusify-center text-center ">
         <Cell props={"<<"} onClick={perviousYear} isMenu={true}></Cell>
-        {/* <div>{"<<"}</div> */}
+       
         <Cell props={"<"} onClick={perviousMonth} isMenu={true}> </Cell>
         <Cell className={"col-span-3"}
          props={format(value, "LLLLLL yyyy")} isMenu={true} ></Cell>
@@ -129,19 +150,10 @@ useEffect(() => {
           );
         })}
 
-        {/* {Array.from(numberOfDaysMonth).map((day, index) => {
-            const date = index + 1
-            return <Cell props={date} key={index}></Cell>
-        })} */}
-{/*       
-        {Array.from({length: prefix}).map((_,index)=> {
-            let day = prefixStart + 2
-            return (<Cell key={index} props={day}/>)
-        })} */}
+    
 
         {Array.from({ length: prefix }).map((_, index) => {
-        //prefixStart = prefixStart +1
-        //console.log(prefixStart)
+    
         const date = prefixStart + index + 1
        
        
@@ -160,36 +172,23 @@ useEffect(() => {
         const date = index + 1;
         const isToday = date === value.getDate()
         let mark = false;
-        let mark2 = false;
+       
      
       let pos  = []
-        const ca = new Date("March 1 2024")
-        const c = new Date("March 15 2024")
         
-        //console.log(array)
+        
         for(let i = 0; i < streaks.length;i++){
-          if(streaks[i].getMonth() === value.getMonth()){
-            //console.log(array[i].getDate())
+          if(streaks[i].getMonth() === value.getMonth() && streaks[i].getYear() === value.getYear()){
               pos.push(streaks[i].getDate())
         
           }
         }
-        //console.log(pos)
-        //console.log(pos)
-       {/* if(ca.getMonth() == value.getMonth()){
-        mark = ca.getDate() === date
-       }
- 
-       if(c.getMonth() == value.getMonth()){
-        mark2 = c.getDate() === date
-       } */}
+      
+       
 
 
          
-       
-        
-       {/* const yes =  date === new Date(2024, 2,15).getDate() */}
-       //getDate(new Date(2014, 2))
+      
          
           
        
@@ -202,7 +201,7 @@ useEffect(() => {
             isDate={true}
             pos={pos}
             mark={mark}
-            mark2={mark2}
+          
             
 
           >
@@ -221,39 +220,9 @@ useEffect(() => {
             props={date}/>
         })}
 
-        {/* <Cell props={"1"}></Cell>
-        <Cell props={"2"}></Cell>
-        <Cell props={"3"}></Cell>
-        <Cell props={"4"}></Cell>
-        <Cell props={"5"}></Cell>
-        <Cell props={"6"}></Cell>
-        <Cell props={"7"}></Cell>
-        <Cell props={"8"}></Cell>
-        <Cell props={"9"}></Cell>
-        <Cell props={"10"}></Cell>
-        <Cell props={"11"}></Cell>
-        <Cell props={"12"}></Cell>
-        <Cell props={"13"}></Cell>
-        <Cell props={"14"}></Cell>
-        <Cell props={"15"}></Cell>
-        <Cell props={"16"}></Cell>
-        <Cell props={"17"}></Cell>
-        <Cell props={"18"}></Cell>
-        <Cell props={"19"}></Cell>
-        <Cell props={"20"}></Cell>
-        <Cell props={"21"}></Cell>
-        <Cell props={"22"}></Cell>
-        <Cell props={"23"}></Cell>
-        <Cell props={"24"}></Cell>
-        <Cell props={"25"}></Cell>
-        <Cell props={"26"}></Cell>
-        <Cell props={"27"}></Cell>
-        <Cell props={"28"}></Cell>
-        <Cell props={"29"}></Cell>
-        <Cell props={"30"}></Cell>
-        <Cell props={"31"}></Cell> */}
       </div>
     </div>
+    </>
   );
 };
 

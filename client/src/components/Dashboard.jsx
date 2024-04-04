@@ -1,5 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {Link} from 'react-router-dom'
+import { differenceInDays } from "date-fns";
 import { UserContext } from "../Context/UserContext";
 import Calendar from "./Calendar/Calendar";
 import { format } from "date-fns";
@@ -10,46 +11,82 @@ const Dashboard = () => {
 
     const [currentDate, setCurrentDate] = useState(new Date())
     const [clickedDate, setClickedDate] = useState(new Date())
+    const [streakCount, setStreakCount] = useState(0)
 
     const {user, setUser} = useContext(UserContext)
 
     const setTodayDate = () => {
         setCurrentDate(new Date())
-        setClickedDate(new Date())
+        
         
     }
+
+   
+        
+    const  getStreaks = async () => {
+		
+        const userId = user["id"]
+      
+        let data = {userId}
+  
+      
+        const res = await fetch(`http://127.0.0.1:8000/streaks`, {
+          
+          method: "POST", 
+          headers: {
+            "Content-Type": "application/json",
+            'Accept': 'application/json',
+            
+            },
+            body: JSON.stringify(data),
+          });
+      
+          const response = await res.json()
+          
+         
+          let temp = []
+         for(let i= 0; i< response.length; i++){
+            temp.push(response[i].date)
+            
+         }
+      
+         //setStreakCount(temp.length)
+        
+       
+    
+        
+      
+       
+        
+          
+        
+          
+      }
+      
+   useEffect(() => {
+    getStreaks()
+   })
 
     return (
 
         
-    //    <div>
-    //    <button >click</button>
-    //     <h1>Hello {JSON.stringify(user,null,2)}</h1>
-    //    </div>
-
-
-    // <div class="boxes">
-    // <div className="one">
-    //     <Calendar/>
-    // </div>
-    // <div class="two">
-    //     box 2
-    // </div>
-    // </div>
+  
     <div className="mt-12 flex justify-evenly content-center flex-row items-start">
    
     <div className="one mt-8">
-        {/* <p>Selected Date: {format(clickedDate, "dd LLLL yyyy")}</p> */}
-       
-        {/* <button onClick={setTodayDate}>Today</button> */}
     
-        <Calendar value={currentDate} onChange={setCurrentDate} onClick={setClickedDate}/>
+
+    
+        <Calendar value={currentDate} onChange={setCurrentDate} setTodayDate={setTodayDate} setStreakCount={setStreakCount}/>
 </div>
-        <div className="two todolist rounded-lg shadow-lg">
-        {/* <p>Current Date: {format(currentDate, "dd LLLL yyyy")}</p> */}
-        {/* <p>{format(currentDate, " LLLL dd yyyy")}</p> */}
-        <ToDoList date={currentDate} />
+        <div className="two">
+        < Stats props={streakCount}/>
+        <div className=" todolist rounded-lg shadow-lg">
+      
+       <ToDoList date={currentDate} />
+       </div>
         </div>
+       
     </div>
     )
 

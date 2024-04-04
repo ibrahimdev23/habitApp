@@ -33,42 +33,45 @@ const SignUp = () => {
 
 
 
-    <div class="bg-white p-8 rounded shadow-md max-w-md w-full mx-auto mt-40">
-        <h2 class="text-2xl font-semibold mb-4">Join HabitApp </h2>
+    <div className="bg-white p-8 rounded shadow-md max-w-md w-full mx-auto mt-40">
+        <h2 className="font-bold text-2xl mb-10 text-center">Join HabitApp </h2>
 
         <form >
-        <div class="mt-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email address: </label>
+        <div className="mt-4">
+                <label for="email" className="font-semibold text-xs0">Email address: </label>
                 <input 
                 type="email" 
                 name="email" 
-                class="mt-1 p-2 w-full border rounded-md" 
+                className="flex items-center h-12 px-4 w-full bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2" 
                 autoComplete="on"
                 onChange={(e) => setEmail(e.target.value)}
                 />
-                {/* <p class="mt-2 text-sm text-green-600 dark:text-green-500"><span class="font-medium">Alright!</span> Username available!</p>
-                <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> Username already taken!</p> */}
+                {/* <p className="mt-2 text-sm text-green-600 dark:text-green-500"><span className="font-medium">Alright!</span> Username available!</p>
+                <p className="mt-2 text-sm text-red-600 dark:text-red-500"><span className="font-medium">Oops!</span> Username already taken!</p> */}
 
             </div>
 
-            <div class="mt-4">
-                <label for="usernmae" class="block text-sm font-medium text-gray-700">Pick a username: </label>
-                <input type="username"  name="username" class="mt-1 p-2 w-full border rounded-md" 
+            <div className="mt-4">
+                <label for="usernmae" className="font-semibold text-xs0">Pick a username: </label>
+                <input type="username"  name="username" className="flex items-center h-12 px-4 w-full bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2" 
                 autoComplete="on"
                      onChange={(e) => setUsername(e.target.value)}
                 />
             </div>
            
-            <div class="mt-4">
-                <label for="password" class="block text-sm font-medium text-gray-700">Password: </label>
-                <input type="password" name="password" class="mt-1 p-2 w-full border rounded-md"
+            <div className="mt-4">
+                <label for="password" className="font-semibold text-xs0">Password: </label>
+                <input type="password" name="password" className="flex items-center h-12 px-4 w-full bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2" 
                 autoComplete="on"
                      onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
          
-            <div class="mt-6">
-                <button onClick={registerUser} class="w-full p-3 bg-red-500 text-white rounded-md hover:bg-red-600">Sign up</button>
+            <div className="mt-6">
+                <button 
+                onClick={registerUser}
+                className="flex w-full items-center justify-center h-12 px-6 w-64 bg-red-600 mt-8 rounded font-semibold text-sm text-blue-100 hover:bg-blue-700 hover:bg-blue-700">
+                Sign up</button>
             </div>
         </form>
     </div>

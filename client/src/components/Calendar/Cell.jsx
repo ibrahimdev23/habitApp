@@ -1,8 +1,11 @@
 import { useEffect } from "react"
 
-// justify-center 
+
 const Cell = ({props, className, onClick, isToday, isDate, isMenu, isNotCurrent,mark,mark2, pos }) => {
-// console.log(pos)
+
+
+
+
 
     if(pos !== undefined){
         for(let i = 0; i < pos.length; i++){
