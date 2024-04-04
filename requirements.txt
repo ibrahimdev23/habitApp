@@ -26,3 +26,5 @@ SQLAlchemy-Utils==0.41.2
 typing_extensions==4.10.0
 virtualenv==20.25.1
 Werkzeug==3.0.1
+gunicorn==19.7.1
+
