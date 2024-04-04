@@ -67,7 +67,7 @@ const ToDoList = ({date}) => {
 		const userId = user["id"]
 		let data = {"date":day, userId}
 	
-		const res = await fetch(`http://127.0.0.1:8000/update_streak`, {
+		const res = await fetch(`https://habitapp-3.onrender.com/update_streak`, {
 			
 			method: "POST", 
 			headers: {
