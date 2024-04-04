@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy import VARCHAR, Column, MetaData, Table, create_engine
 import os
-
+from urllib.parse import urlencode
 from dotenv import load_dotenv, dotenv_values
 
 from flask_bcrypt import Bcrypt
