@@ -15,9 +15,10 @@ CORS(app)
 # SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL').replace("postgres://", "postgresql://", 1)
 
 # app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://ogpwmffi:LMf9Hr-lFZC4bFCWbAy5WVuUia8WWZeb@hansken.db.elephantsql.com/ogpwmffi'
+
 load_dotenv()
 database_url = os.getenv("DATABASE_URL")
-print(database_url)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
