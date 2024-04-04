@@ -15,6 +15,12 @@ from flask_login import login_user, logout_user, login_required
 from models import Streak, User
 
 
+
+@app.route("/")
+def index():
+    return app.send_static_file("index.html")
+
+
 #user authentication 
 @login_manager.user_loader
 def load_user(user_id):

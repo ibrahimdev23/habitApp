@@ -6,12 +6,16 @@ from sqlalchemy import VARCHAR, Column, MetaData, Table, create_engine
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../build", static_url_path="/")
 CORS(app)
 
+# SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL').replace("postgres://", "postgresql://", 1)
 
 app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://ogpwmffi:LMf9Hr-lFZC4bFCWbAy5WVuUia8WWZeb@hansken.db.elephantsql.com/ogpwmffi'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+
+
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
