@@ -120,7 +120,7 @@ def get_user_streaks():
 if __name__ == "__main__":
    
     with app.app_context():
-        app.secret_key = 'super secret key'
+        # app.secret_key = 'super secret key'
 
         db.create_all()
         #db.drop_all()
