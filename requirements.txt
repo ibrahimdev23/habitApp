@@ -27,6 +27,7 @@ six==1.16.0
 SQLAlchemy==2.0.28
 SQLAlchemy-Utils==0.41.2
 typing_extensions==4.10.0
+urllib3==2.2.1
+urlopen==1.0.0
 virtualenv==20.25.1
 Werkzeug==3.0.1
-

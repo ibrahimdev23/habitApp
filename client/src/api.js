@@ -1,1 +1,0 @@
-const api = env.API_URL
