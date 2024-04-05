@@ -21,7 +21,7 @@ function App() {
   const [users1, setUsers] = useState([])
 
   const fetchApi = async () => {
-    const res = await fetch("http://127.0.0.1:8000/api/users")
+    const res = await fetch("https://habitapp-4b.onrender.com/api/users")
     const data = await res.json()
     setUsers(data.users)
    
