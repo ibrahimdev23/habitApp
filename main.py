@@ -10,7 +10,7 @@ from flask_login import login_user, logout_user, login_required
 from models import Streak, User
 
 
-
+app.secret_key = 'super secret key'
 
 
 #user authentication 
@@ -120,7 +120,7 @@ def get_user_streaks():
 if __name__ == "__main__":
    
     with app.app_context():
-        # app.secret_key = 'super secret key'
+        
 
         db.create_all()
         #db.drop_all()
