@@ -3,13 +3,8 @@ from flask_cors import CORS
 from flask import Flask
 from flask import jsonify
 from flask import request
-from urllib.parse import urlencode
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import JWTManager
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine, select
+
+
 from config import db, app, bcrypt, login_manager
 from flask_login import login_user, logout_user, login_required
 from models import Streak, User
