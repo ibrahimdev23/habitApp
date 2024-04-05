@@ -101,7 +101,7 @@ def update_streak():
     return jsonify({"message": "user updated"}), 200
 
 
-@app.route('/api/streaks/<int:user_id>', methods=["GET", "POST"])
+@app.route('/api/streaks/<int:user_id>', methods=["GET"])
 def get_user_streaks(user_id):
     
     #user_id = user_id
