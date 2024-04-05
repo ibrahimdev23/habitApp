@@ -18,7 +18,7 @@ const Navbar = () => {
 
     const logOut = async () => {
       setUser(null)
-      const res = await fetch(`http://127.0.0.1:8000/logout`)
+      const res = await fetch(`https://habitapp-4b.onrender.com/logout`)
 			const response = res.json()
 			
     

@@ -30,7 +30,7 @@ const Dashboard = () => {
         let data = {userId}
   
       
-        const res = await fetch(`http://127.0.0.1:8000/api/streaks`, {
+        const res = await fetch(`https://habitapp-4b.onrender.com/api/streaks`, {
           
           method: "POST", 
           headers: {
