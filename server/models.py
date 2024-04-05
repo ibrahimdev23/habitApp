@@ -2,11 +2,9 @@ from flask_login import UserMixin
 from sqlalchemy import ARRAY, Integer
 from config import db, login_manager
 
-from sqlalchemy_utils import ScalarListType
-from sqlalchemy.ext.mutable import Mutable
-from sqlalchemy.dialects.postgresql import ARRAY
-from urllib.parse import urlencode
-from MutableListPy import MutableList  
+
+
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
