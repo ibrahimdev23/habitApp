@@ -76,7 +76,7 @@ def register():
         return jsonify({"message": str(e)}), 400
     
     
-    flash('Your acount has been created! You are now able to log in', 'success')
+   
     return jsonify({
         "id": new_user.id,
         "email": email
@@ -101,10 +101,10 @@ def update_streak():
     return jsonify({"message": "user updated"}), 200
 
 
-@app.route('/api/streaks', methods=["GET", "POST"])
-def get_user_streaks():
-    user_id = request.json.get("userId", None)
-   
+@app.route('/api/streaks/<int:user_id>', methods=["GET", "POST"])
+def get_user_streaks(user_id):
+    
+    #user_id = user_id
     streaks = Streak.query.filter_by(user_id=user_id).all()
     print(streaks)
  
